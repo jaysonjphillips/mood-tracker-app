@@ -20,5 +20,21 @@
   "bugs": {
     "url": "https://github.com/jaysonjphillips/mood-tracker-app/issues"
   },
-  "homepage": "https://github.com/jaysonjphillips/mood-tracker-app#readme"
+  "homepage": "https://github.com/jaysonjphillips/mood-tracker-app#readme",
+  "dependencies": {
+    "eslint-plugin-promise": "^4.2.1",
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0",
+    "sequelize": "^5.21.6",
+    "twilio": "^3.42.2"
+  },
+  "devDependencies": {
+    "dotenv": "^8.2.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.1",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.17.3",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-standard": "^4.0.0"
+  }
 }
