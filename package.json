@@ -1,0 +1,19 @@
+{
+  "name": "mood-tracker-app",
+  "version": "1.0.0",
+  "description": "Name TBD: Twilio Hackathon Project Entry using SMS and a web app to track mood trends while in quarantine and allowing for ways, via SMS, to reach out to others for help",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jaysonjphillips/mood-tracker-app.git"
+  },
+  "author": "Jayson J. Phillips",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jaysonjphillips/mood-tracker-app/issues"
+  },
+  "homepage": "https://github.com/jaysonjphillips/mood-tracker-app#readme"
+}
