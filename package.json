@@ -22,9 +22,15 @@
   },
   "homepage": "https://github.com/jaysonjphillips/mood-tracker-app#readme",
   "dependencies": {
+    "bcrypt": "^4.0.1",
+    "body-parser": "^1.19.0",
     "eslint-plugin-promise": "^4.2.1",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
     "passport": "^0.4.1",
+    "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
+    "pg": "^8.0.3",
     "sequelize": "^5.21.6",
     "twilio": "^3.42.2"
   },
