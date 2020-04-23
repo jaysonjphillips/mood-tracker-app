@@ -5,6 +5,11 @@ module.exports = (sequelize, DataTypes) => {
         phone: DataTypes.STRING
     });
 
+    User.checkPassword = passwordEntry => {
+        // compare hashed password
+        return true
+    }
+
     User.sync({force: true})
     return User;
 }
