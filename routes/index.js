@@ -1,7 +1,6 @@
-const router = require('express').Router()
-const userController = require('../controllers/UserController')
-
+const router = require('express').Router({mergeParams: true})
+const userRoutes = require('./UserRoutes')(router)
 
 module.exports = app => {
-    app.use('/api/user', () => {}) // mount all user api routes
+    app.use('/api/user', userRoutes) // mount all user api routes
 }

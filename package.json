@@ -4,7 +4,9 @@
   "description": "Name TBD: Twilio Hackathon Project Entry using SMS and a web app to track mood trends while in quarantine and allowing for ways, via SMS, to reach out to others for help",
   "main": "server.js",
   "scripts": {
+    "build:run": "yarn build && node server",
     "dev": "node server && cd client && yarn start",
+    "build": "cd client && yarn build",
     "prod": "node server",
     "lint": "prettier + linter",
     "lint:fix": "try to run linter with autofix param",
@@ -27,12 +29,14 @@
     "eslint-plugin-promise": "^4.2.1",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
+    "nodemon": "^2.0.3",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
     "pg": "^8.0.3",
     "sequelize": "^5.21.6",
-    "twilio": "^3.42.2"
+    "twilio": "^3.42.2",
+    "twilio-cli": "^2.0.0"
   },
   "devDependencies": {
     "dotenv": "^8.2.0",
