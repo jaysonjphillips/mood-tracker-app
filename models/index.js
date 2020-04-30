@@ -10,11 +10,14 @@ const db = {};
 
 let sequelize;
 if (process.env.NODE_ENV === "production") {
-  sequelize = new Sequelize(process.env.DATABASE_URL);
+  sequelize = new Sequelize(process.env.DATABASE_URL, {
+    dialect: DB_DRIVER
+  });
 } else {
   sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, {
       host: DB_HOST,
-      dialect: DB_DRIVER
+      dialect: DB_DRIVER,
+      logging: false
   });
 }
 
