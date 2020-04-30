@@ -159,9 +159,9 @@ const UserSettings = () => {
       '/api/user/settings',
       JSON.stringify({
         phone: formState.phone,
-        morning_alert: selectedDate.morning,
-        afternoon_alert: selectedDate.afternoon,
-        evening_alert: selectedDate.evening,
+        morning: selectedDate.morning,
+        afternoon: selectedDate.afternoon,
+        evening: selectedDate.evening,
         time_zone: selectedTZ
       }),
       false
