@@ -41,22 +41,8 @@ db.sequelize.authenticate()
                 await db[model].sync({force: true})
             }
         }
-
-        const newUser = await db.User.create({
-            first_name: 'Test',
-            last_name: 'Tester',
-            email: 'test@testing.com',
-            phone: '1111111111',
-            password: 'test1234'
+        new cronJob('0 * * * *', smsPromptWorker, null, true)
         })
-
-        if(newUser) {
-            console.log(await db.User.findAll())
-            await db.UserSettings.fakeData(newUser.id)
-            // smsPromptWorker()
-            new cronJob('0 * * * *', smsPromptWorker, null, true)
-        }
-    })
 })
 .catch( err => console.log(err))
 
