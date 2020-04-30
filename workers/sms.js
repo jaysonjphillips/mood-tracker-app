@@ -5,7 +5,7 @@ const {User, UserSettings, MoodEntry, Sequelize} = require('../models')
 
     // const currentTime = moment().utc()
     // const endTime = moment(currentTime).add(59, 'minutes')
-    // console.log(`current time in utc: ${currentTime}`)
+    // 
     // const allUsers = await UserSettings.findAll({include: User})
     // const readyToSend = allUsers.filter(profile => {
     //   const convertedTime = moment(profile.morning, 'h:mm a').tz(profile.time_zone).utc() 

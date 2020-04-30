@@ -23,7 +23,7 @@ module.exports = {
                 })
             }
         } else {
-            console.log("handle case of unregistered number or missing text body")
+            
         }
     }
 }

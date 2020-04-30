@@ -16,17 +16,17 @@ export default () => {
     <Container maxWidth="sm" component="main" className={classes.heroContent}>
       <Typography
         component="h1"
-        variant="h2"
+        variant="h3"
         align="center"
         color="textPrimary"
         gutterBottom
       >
         Because How You Feel, Matters
       </Typography>
-      <Typography variant="h5" align="center" color="textSecondary" component="p">
-        Quickly build an effective pricing table for your potential customers with
-        this layout. It&apos;s built with default Material-UI components with little
-        customization.
+      <Typography variant="h6" align="center" color="textSecondary" component="p">
+        Maybe journaling is not your thing. And that's okay. But there's always a way to 
+        be in tune with how you feel and to reach out to others in all times of life. With 
+        a simple text message. We're here so you have a tool to ask yourself, "you good, fam?"
       </Typography>
     </Container>
   )

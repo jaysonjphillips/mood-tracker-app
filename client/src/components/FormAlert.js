@@ -11,7 +11,7 @@ export default (props) => {
     }, 5000)
   }, [setShowAlert])
 
-  console.log('L8', alertMessage)
+  
   return (
     <Collapse in={showAlert}>
       <Alert severity={alertType} onClose={() => setShowAlert(false)}>

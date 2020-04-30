@@ -99,7 +99,7 @@ module.exports = (sequelize, DataTypes) => {
       User.notificationCheck = async () => {
         const currentTime = moment().utc()
         const endTime = moment(currentTime).add(59, 'minutes')
-        console.log(`current time in utc: ${currentTime}`)
+        
         const allUsers = await User.findAll({include: UserSettings})
         const currentEntries = allUsers.map( async user => {
             return await MoodEntry.findAll({
@@ -113,7 +113,7 @@ module.exports = (sequelize, DataTypes) => {
                 }
             })
         })
-        console.log(currentEntries)
+        
         // const readyToSend = allUsers.filter(profile => {
         //   const convertedTime = moment(profile.morning, 'h:mm a').tz(profile.time_zone).utc() 
         //   return convertedTime.isAfter(currentTime) && convertedTime.isBefore(endTime)

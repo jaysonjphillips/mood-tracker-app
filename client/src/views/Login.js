@@ -39,7 +39,7 @@ const Login = ({ location, history }) => {
 
   const submitForm = async (event) => {
     // await api call for login
-    const resp = await doPost('/api/user/login', JSON.stringify(loginState), false)
+    const resp = await doPost('/api/auth/login', JSON.stringify(loginState), false)
     // handle errors
 
     const result = await resp.json()

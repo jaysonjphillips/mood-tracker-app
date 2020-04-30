@@ -1,9 +1,8 @@
-
-const { PORT, NODE_ENV } = process.env
-
-if(NODE_ENV !== 'production') {
+if(process.env.NODE_ENV !== 'production') {
     require('dotenv').config()
 }
+
+const { PORT, NODE_ENV } = process.env
 
 const express = require('express')
 const session = require('express-session')
@@ -35,7 +34,7 @@ if (NODE_ENV === 'production') {
 db.sequelize.authenticate()
 .then(() => {
     app.listen(PORT, async () => {
-        console.log("started")
+        console.log("started", PORT)
         for (model in db) {
             if(model !== "sequelize" && model !== "Sequelize") {
                 await db[model].sync({force: true})
@@ -44,5 +43,5 @@ db.sequelize.authenticate()
         new cronJob('0 * * * *', smsPromptWorker, null, true)
         })
 })
-.catch( err => console.log(err))
+.catch( err => console.error(err))
 

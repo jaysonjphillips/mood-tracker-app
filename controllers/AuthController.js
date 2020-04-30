@@ -7,14 +7,14 @@ const registerUser = async (req, res) => {
         const newUser = await User.create(req.body)
         res.status(201).json({message: "success"})
     } catch (err) {
-        console.log(err)
+        
         res.status(400).json(err.errors)
     }
 }
 
 const login = async (req, res, next) => {
     passport.authenticate('local', async (err, user, info) => {
-        console.log(err, user, info)
+        
         try {
             if(err) console.error(err)
             if(info !== undefined) return res.status(401).json(info)

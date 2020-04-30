@@ -35,14 +35,12 @@ export default ({ children }) => {
           {children}
         </Grid>
         <Grid item xs={2} />
-
+      <Grid item xs={12}  />
         {/*  Footer */}
         <Grid item xs={2}>
-          Modules
         </Grid>
         <Grid item xs={8} />
         <Grid item xs={2}>
-          modules
         </Grid>
       </Grid>
     </div>

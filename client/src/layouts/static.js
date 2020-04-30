@@ -51,8 +51,6 @@ export default ({ children }) => {
           {children}
         </Grid>
       </Container>
-
-      <Footer />
       {/* End footer */}
     </>
   )

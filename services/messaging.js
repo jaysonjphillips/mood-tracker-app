@@ -8,14 +8,6 @@ const sendMessage = async (body, to = null) => {
         from: TWILIO_NUMBER,
         body: body
     })
-
-    if(result) {
-        fs.writeFile('result.txt', JSON.stringify(result), error => {
-            if(!error) console.log('success')
-        })
-    } else {
-        console.log('something went wrong')
-    }
 }
 
 const phoneValidator = async number => {
