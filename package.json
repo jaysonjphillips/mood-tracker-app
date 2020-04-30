@@ -1,6 +1,9 @@
 {
   "name": "mood-tracker-app",
   "version": "1.0.0",
+  "engines": {
+    "node": "12.16.x"
+  },
   "description": "Name TBD: Twilio Hackathon Project Entry using SMS and a web app to track mood trends while in quarantine and allowing for ways, via SMS, to reach out to others for help",
   "main": "server.js",
   "scripts": {
@@ -11,7 +14,8 @@
     "lint": "prettier + linter",
     "lint:fix": "try to run linter with autofix param",
     "bootstrap": "setup env for running app",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "heroku-postbuild": "yarn build"
   },
   "repository": {
     "type": "git",
