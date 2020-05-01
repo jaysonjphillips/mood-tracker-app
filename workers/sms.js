@@ -3,16 +3,6 @@ const email = require('../services/email')
 const moment = require('moment-timezone')
 const {User, UserSettings, MoodEntry, Sequelize} = require('../models')
 
-    // const currentTime = moment().utc()
-    // const endTime = moment(currentTime).add(59, 'minutes')
-    // 
-    // const allUsers = await UserSettings.findAll({include: User})
-    // const readyToSend = allUsers.filter(profile => {
-    //   const convertedTime = moment(profile.morning, 'h:mm a').tz(profile.time_zone).utc() 
-    //   return convertedTime.isAfter(currentTime) && convertedTime.isBefore(endTime)
-    // })
-    // return readyToSend
-
 const notificationCheck = async () => {
       const currentTime = moment().utc()
       const endTime = moment(currentTime).add(59, 'minutes')

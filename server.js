@@ -25,7 +25,7 @@ app.use(passport.session())
 app.use(bodyParser.urlencoded({extended: false}))
 
 require('./routes')(app)
-const {smsPromptWorker} = require('./workers/sms')
+const workers = require('./workers/notification')
 
 if (NODE_ENV === 'production') {
     app.use(express.static('client/build'))
@@ -34,14 +34,15 @@ if (NODE_ENV === 'production') {
 db.sequelize.authenticate()
 .then(() => {
     app.listen(PORT, async () => {
-        console.log("started", PORT)
+
         for (model in db) {
             if(model !== "sequelize" && model !== "Sequelize") {
                 await db[model].sync({force: true})
             }
         }
-        new cronJob('0 * * * *', smsPromptWorker, null, true)
-        })
+
+        new cronJob('0 * * * *', workers.moodEntryWorker, null, true)
+    })
 })
 .catch( err => console.error(err))
 

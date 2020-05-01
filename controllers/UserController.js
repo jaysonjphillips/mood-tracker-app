@@ -29,7 +29,7 @@ const getSettings = async (req, res) => {
 }
 
 const updateSettings =  async (req, res) => {
-    const userSettings = await UserSettings.findOne({where: {user_id: req.user.id}})
+    const existingSettings = await UserSettings.findOne({where: {user_id: req.user.id}})
     if(!userSettings) return res.status(404).end()
 
     for (setting in req.body) {
@@ -40,9 +40,25 @@ const updateSettings =  async (req, res) => {
     res.json(userSettings)
 }
 
+const createSettings =  async (req, res) => {
+    const existingSettings = await UserSettings.findOne({where: {user_id: req.user.id}})
+    if(existingSettings) return res.status(500).end()
+
+    console.log({...req.body})
+
+    const newSettings = await UserSettings.create({
+        user_id: req.user.id,
+        ...req.body
+    })
+
+    if(!newSettings) return res.status(400).end()
+    res.json(newSettings)
+}
+
 module.exports = {
     getUser,
     updateUser,
     getSettings,
-    updateSettings
+    updateSettings,
+    createSettings
 }

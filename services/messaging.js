@@ -3,8 +3,10 @@ const twilio = require('twilio')(TWILIO_SID, TWILIO_TOKEN)
 const fs = require('fs')
 
 const sendMessage = async (body, to = null) => {
+    console.log(`this phone will be sent a message ${to}`)
+
     const result = await twilio.messages.create({
-        to: MY_NUMBER, 
+        to: to, 
         from: TWILIO_NUMBER,
         body: body
     })

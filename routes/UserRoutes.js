@@ -2,7 +2,8 @@ const {
     getUser, 
     updateUser, 
     getSettings, 
-    updateSettings
+    updateSettings,
+    createSettings
 } = require('../controllers/UserController')
 
 module.exports = router => {
@@ -18,6 +19,7 @@ module.exports = router => {
         .route('/settings')
         .get(getSettings)
         .put(updateSettings)
+        .post(createSettings)
 
     return router
 }

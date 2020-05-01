@@ -52,18 +52,19 @@ module.exports = (sequelize, DataTypes) => {
                     const isValid = this.phone.match(/^1?[-\. ]?(\(\d{3}\)?[-\. ]?|\d{3}?[-\. ]?)?\d{3}?[-\. ]?\d{4}$/)
                     if(!isValid) {
                         throw new Error('Please enter a valid US phone number')
-                    } else {
-                        try {
-                            const isMobile = await messaging.phoneValidator(this.phone)
-                            if(!isMobile) {
-                                throw new Error('Please enter a valid sms-enabled phone number.')
-                            }
-                            this.phone_formatted = isMobile[1]
-                        } catch (err) {
-                            throw new Error('Please enter a valid sms-enabled phone number.')
-                        }
-
                     }
+                    // } else {
+                    //     try {
+                    //         const isMobile = await messaging.phoneValidator(this.phone)
+                    //         if(!isMobile) {
+                    //             throw new Error('Please enter a valid sms-enabled phone number.')
+                    //         }
+                    //         this.phone_formatted = isMobile[1]
+                    //     } catch (err) {
+                    //         throw new Error('Please enter a valid sms-enabled phone number.')
+                    //     }
+
+                    // }
                 }
             }, 
             allowNull: false
@@ -91,6 +92,11 @@ module.exports = (sequelize, DataTypes) => {
         })
 
         User.hasOne(models.UserSettings, {
+            foreignKey: 'user_id',
+            onDelete: 'CASCADE'
+        })
+
+        User.hasMany(models.NotificationSchedule, {
             foreignKey: 'user_id',
             onDelete: 'CASCADE'
         })
