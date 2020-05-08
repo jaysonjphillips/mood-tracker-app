@@ -16,7 +16,7 @@ export default (props) => {
     <Collapse in={showAlert}>
       <Alert severity={alertType} onClose={() => setShowAlert(false)}>
         <AlertTitle>{alertTitle}</AlertTitle>
-        {alertMessage}
+        {alertMessage || ''}
       </Alert>
     </Collapse>
   )

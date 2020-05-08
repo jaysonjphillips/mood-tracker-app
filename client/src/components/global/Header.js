@@ -1,11 +1,11 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import Link from '@material-ui/core/Link'
 import { Link as RouterLink } from 'react-router-dom'
 import Button from '@material-ui/core/Button'
-
+import { AuthContext } from '../../providers/Auth'
 import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles((theme) => ({
@@ -32,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default () => {
   const classes = useStyles()
+  const { user } = useContext(AuthContext)
 
   return (
     <AppBar
@@ -70,15 +71,18 @@ export default () => {
           >
             Why Track Your Mood?
           </Link>
-          <Link
-            component={RouterLink}
-            variant="button"
-            color="textPrimary"
-            to="#"
-            className={classes.link}
-          >
-            Support
+          { user.isLoggedIn && (
+              <Link
+              component={RouterLink}
+              variant="button"
+              color="textPrimary"
+              to="/settings"
+              className={classes.link}
+            >
+          Settings
           </Link>
+          )}
+
         </nav>
         <Button
           component={RouterLink}

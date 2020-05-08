@@ -13,8 +13,25 @@ const updateUser = async (req, res) => {
     const user = await User.findOne({where: {id: req.user.id}})
     if(!user) return res.status(400).end()
 
-    for (field in req.body) {
-        user[field] = req.body[field]
+    const {password = null, confirm_password = null} = req.body
+
+    if(password && confirm_password) {
+        // check password
+        if(confirm_password === password){
+            if(!User.checkPassword(password, user.password)) {
+                user.password = password
+                User.hashPassword(user)
+            } 
+        else {
+            return res.status(400).json({message: "Passwords do not match"})
+        }
+    } else if(!password && !confirm_password && Object.keys(req.body).length) {
+            for (field in req.body) {
+                user[field] = req.body[field]
+            }
+        }
+    } else {
+        return res.status(400).json({message: "Passwords do not match"})
     }
 
     await user.save()

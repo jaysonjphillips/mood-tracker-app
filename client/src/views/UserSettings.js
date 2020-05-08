@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useContext } from 'react'
+import React, { useState, useMemo, useContext, useEffect } from 'react'
 import {
   Box,
   Container,
@@ -11,11 +11,11 @@ import {
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { TimePicker } from '@material-ui/pickers'
-import { Autocomplete } from '@material-ui/lab'
+import SelectMenu from '../components/controls/SelectMenu'
 import moment from 'moment-timezone'
 import { inputChangeHandler } from '../lib/eventHandlers'
 import FormAlert from '../components/FormAlert'
-import { doPost, doPut } from '../lib/fetch'
+import { doPost, doPut, doGet } from '../lib/fetch'
 import { AuthContext } from '../providers/Auth'
 
 const useStyles = makeStyles((theme) => ({
@@ -51,26 +51,34 @@ const useStyles = makeStyles((theme) => ({
 const UserSettings = () => {
   const classes = useStyles()
   const { user } = useContext(AuthContext)
+  const time_zone_guess = moment.tz.guess()
 
-  const initialFormState = {
-    email: '',
+  const initialPasswordState = {
     password: '',
-    confirm_password: '',
-    first_name: '',
-    last_name: '',
-    phone: ''
+    confirm_password: ''
   }
 
-  const listOfTimeZones = useMemo(() => moment.tz.names(), [])
+  const initialSettingsState = {
+    phone: '',
+    morning: '',
+    afternoon: '',
+    evening: '',
+    time_zone: user.settings && user.settings.time_zone || time_zone_guess
+  }
 
-  const [formState, setFormState] = useState(initialFormState)
-  const [selectedDate, setSelectedDate] = useState({
-    morning: moment(Date.now()),
-    afternoon: moment(Date.now()).add(6, 'hours'),
-    evening: moment(Date.now()).add(12, 'hours')
-  })
-  const [selectedTZ, setSelectedTZ] = useState(moment.tz.guess())
+
+  const listOfTimeZones = useMemo(() => moment.tz.names(), [])
+  // const listOfTimeZones = ['America/New_York', 'America/Los_Angeles', '', null]
+
+  // updating the user profile 
+  const [profileState, setProfileState] = useState(user.profile)
+
+  const [passwordState, setPasswordState] = useState(initialPasswordState)
+
+  const [userSettings, setUserSettings] = useState(initialSettingsState)
+
   const [allTimeZones] = useState(listOfTimeZones)
+
   const [formResponse, setFormResponse] = useState({
     title: '',
     message: '',
@@ -80,18 +88,25 @@ const UserSettings = () => {
   const [showAlert, setShowAlert] = useState(false)
 
   const handleInput = (event) => {
-    inputChangeHandler(event, [formState, setFormState])
+    inputChangeHandler(event, [profileState, setProfileState])
+  }
+
+  const handlePasswordInput = (event) => {
+    inputChangeHandler(event, [passwordState, setPasswordState])
   }
 
   const handleTimeZoneSelect = (event, newValue) => {
-    event.persist()
-    setSelectedTZ(newValue)
+    event && event.persist()
+    setUserSettings({
+      ...userSettings,
+      time_zone: newValue
+    })
   }
 
   const handleSelectedDate = (name, newValue) => {
     // event.persist();
-    setSelectedDate({
-      ...selectedDate,
+    setUserSettings({
+      ...userSettings,
       [name]: newValue
     })
   }
@@ -109,18 +124,18 @@ const UserSettings = () => {
   }
 
   const handleFormResponse = async (resp) => {
-    const result = await resp.json()
+    const result = await resp
     if (!resp.ok) {
       await setFormResponse({
         type: 'error',
         title: 'Error',
-        message: `${result.message}`
+        message: `${result.message || result.statusText}`
       })
     } else {
       await setFormResponse({
         type: 'success',
         title: 'Success',
-        message: `${result.message}`
+        message: result.message || result.statusText
       })
     }
     setShowAlert(true)
@@ -128,47 +143,69 @@ const UserSettings = () => {
 
   const submitProfile = async (event) => {
     event.persist()
+
     const resp = await doPut(
-      `/api/user/${user.id}`,
+      `/api/user`,
       JSON.stringify({
-        username: formState.username,
-        first_name: formState.first_name,
-        last_name: formState.last_name,
-        phone: formState.phone
+        email: profileState.email,
+        first_name: profileState.first_name,
+        last_name: profileState.last_name,
+        phone: profileState.phone
       }),
-      false
+      true
     )
+
+    handleFormResponse(resp)
   }
 
   const submitPasswordChange = async (event) => {
     event.persist()
     const resp = await doPut(
-      `/api/user/${user.id}`,
+      `/api/user`,
       JSON.stringify({
-        username: formState.username,
-        first_name: formState.first_name,
-        last_name: formState.last_name,
-        phone: formState.phone
+        password: passwordState.password,
+        confirm_password: passwordState.confirm_password
       }),
-      false
+      true
     )
+
+    handleFormResponse(resp)
   }
 
   const submitSettings = async (event) => {
     const resp = await doPost(
       '/api/user/settings',
       JSON.stringify({
-        phone: formState.phone,
-        morning: selectedDate.morning,
-        afternoon: selectedDate.afternoon,
-        evening: selectedDate.evening,
-        time_zone: selectedTZ
+        phone: profileState.phone,
+        morning: userSettings.morning,
+        afternoon: userSettings.afternoon,
+        evening: userSettings.evening,
+        time_zone: userSettings.time_zone
       }),
-      false
+      true
     )
 
     handleFormResponse(resp)
   }
+
+  useEffect(() => {
+    doGet(`/api/user/settings?id=${moment().valueOf()}`, true)
+    .then(async response => {
+      const result = await response
+      if(response.ok) {
+        const {UserSetting} = await result.json()
+        
+        if(UserSetting) {
+          setUserSettings({
+            morning: UserSetting.morning,
+            afternoon: UserSetting.afternoon, 
+            evening: UserSetting.evening
+          }) 
+        }
+      }
+    })
+    //handle updating state
+  }, [setUserSettings])
 
   return (
     <Container maxWidth="xs">
@@ -195,7 +232,7 @@ const UserSettings = () => {
                   fullWidth
                   variant="outlined"
                   onChange={handleInput}
-                  value={formState.first_name}
+                  value={profileState.first_name}
                 />
 
                 {/* {password input} */}
@@ -205,7 +242,7 @@ const UserSettings = () => {
                   fullWidth
                   variant="outlined"
                   onChange={handleInput}
-                  value={formState.last_name}
+                  value={profileState.last_name}
                 />
 
                 <TextField
@@ -214,7 +251,7 @@ const UserSettings = () => {
                   fullWidth
                   variant="outlined"
                   onChange={handleInput}
-                  value={formState.email}
+                  value={profileState.email}
                 />
 
                 <TextField
@@ -225,7 +262,7 @@ const UserSettings = () => {
                   fullWidth
                   variant="outlined"
                   onChange={handleInput}
-                  value={formState.phone}
+                  value={profileState.phone}
                   helperText="format: 718-555-1212"
                 />
               </CardContent>
@@ -251,18 +288,18 @@ const UserSettings = () => {
                   name="password"
                   fullWidth
                   variant="outlined"
-                  onChange={handleInput}
-                  value={formState.password}
+                  onChange={handlePasswordInput}
+                  value={passwordState.password}
                 />
 
                 <TextField
                   label="Password"
                   type="password"
-                  name="password"
+                  name="confirm_password"
                   fullWidth
                   variant="outlined"
-                  onChange={handleInput}
-                  value={formState.password}
+                  onChange={handlePasswordInput}
+                  value={passwordState.confirm_password}
                 />
               </CardContent>
               <CardActions className={classes.cardButton}>
@@ -282,11 +319,14 @@ const UserSettings = () => {
                 title="Set Notification Prompts"
                 className={classes.cardHeader}
               />
+
               <CardContent className={classes.cardBody}>
+                
+              {/*TODO: clean up getting the time into and out of picker  */}
                 <TimePicker
                   autoOk
                   label="Morning Reminder?"
-                  value={selectedDate.morning}
+                  value={userSettings.morning || moment()}
                   onChange={handleMorning}
                   name="morning_prompt"
                   inputVariant="outlined"
@@ -295,7 +335,7 @@ const UserSettings = () => {
                 <TimePicker
                   autoOk
                   label="Afternoon Reminder?"
-                  value={selectedDate.afternoon}
+                  value={userSettings.afternoon || moment()}
                   onChange={handleAfternoon}
                   name="afternoon_prompt"
                   inputVariant="outlined"
@@ -304,17 +344,21 @@ const UserSettings = () => {
                 <TimePicker
                   autoOk
                   label="Evening Reminder?"
-                  value={selectedDate.evening}
+                  value={userSettings.evening || moment()}
                   onChange={handleEvening}
                   name="evening_prompt"
                   inputVariant="outlined"
                 />
 
-                <Autocomplete
+                {/*TODO: Change component handling of state & selection  */}
+                <SelectMenu label="What's Your Time Zone?" options={allTimeZones} name='time_zone' value={userSettings.time_zone} />
+                {/* <Autocomplete
                   id="combo-box-demo"
                   options={allTimeZones}
                   style={{ width: 300 }}
                   onChange={handleTimeZoneSelect}
+                  defaultValue={allTimeZones[allTimeZones.indexOf(userSettings.time_zone)] || null}
+                  getOptionSelected={(option, time_zone) => option = time_zone}
                   renderInput={(params) => (
                     <TextField
                       {...params}
@@ -322,8 +366,8 @@ const UserSettings = () => {
                       variant="outlined"
                     />
                   )}
-                  value={selectedTZ}
-                />
+                  // value={userSettings.time_zone}
+                /> */}
               </CardContent>
               <CardActions className={classes.cardButton}>
                 <Button

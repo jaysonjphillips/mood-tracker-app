@@ -7,12 +7,10 @@ import App from './App'
 import { AuthProvider } from './providers/Auth'
 
 ReactDOM.render(
-  <React.StrictMode>
     <AuthProvider>
       <MuiPickersUtilsProvider utils={MomentUtils}>
         <App />
       </MuiPickersUtilsProvider>
-    </AuthProvider>
-  </React.StrictMode>,
+    </AuthProvider>,
   document.getElementById('root')
 )

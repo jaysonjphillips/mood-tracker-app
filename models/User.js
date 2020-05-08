@@ -75,9 +75,11 @@ module.exports = (sequelize, DataTypes) => {
         } 
     })
 
+    User.hashPassword = ( user => user.password = bcrypt.hashSync(user.password, 10))
+
     // hooks
-    User.beforeSave( user => {
-        user.password = bcrypt.hashSync(user.password, 10)
+    User.beforeCreate( user => {
+        User.hashPassword(user)
     })
 
     User.checkPassword = (passwordEntry, hashedPassword) => {
@@ -119,12 +121,6 @@ module.exports = (sequelize, DataTypes) => {
                 }
             })
         })
-        
-        // const readyToSend = allUsers.filter(profile => {
-        //   const convertedTime = moment(profile.morning, 'h:mm a').tz(profile.time_zone).utc() 
-        //   return convertedTime.isAfter(currentTime) && convertedTime.isBefore(endTime)
-        // })
-        // return readyToSend
       }
 
 

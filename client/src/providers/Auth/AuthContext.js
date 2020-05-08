@@ -4,8 +4,9 @@ const appAuthToken = localStorage.getItem('aat')
 
 export const initialState = {
   isLoggedIn: !!appAuthToken,
-  user: null,
-  token: appAuthToken || null
+  profile: null,
+  token: appAuthToken || null,
+  settings: null
 }
 
 const AuthContext = React.createContext(initialState)

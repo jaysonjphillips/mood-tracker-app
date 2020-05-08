@@ -39,7 +39,7 @@ const SignUp = ({ location, history }) => {
 
   const submitForm = async (event) => {
     // await api call for login
-    const resp = await doPost('/api/user/register', JSON.stringify(formState), false)
+    const resp = await doPost('/api/auth/register', JSON.stringify(formState), false)
 
     const result = await resp.json()
     if (!resp.ok) {
