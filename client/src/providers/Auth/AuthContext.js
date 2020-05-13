@@ -1,11 +1,8 @@
 import React from 'react'
 
-const appAuthToken = localStorage.getItem('aat')
-
 export const initialState = {
-  isLoggedIn: !!appAuthToken,
+  isLoggedIn: null,
   profile: null,
-  token: appAuthToken || null,
   settings: null
 }
 

@@ -38,6 +38,10 @@ const updateUser = async (req, res) => {
     res.json(user)
 }
 
+const userCheck = async (req, res) => {
+    if(!req.user) return res.status(401).end()
+}
+
 const getSettings = async (req, res) => {
     const user = await User.findOne({where: {id: req.user.id}, include: UserSettings})
     delete user.password

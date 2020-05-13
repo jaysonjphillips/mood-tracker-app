@@ -21,8 +21,15 @@ export default ({ children }) => {
     })
   } // clear the token in localStorage and the user data
 
+  const checkUserSuccess = data => {
+    dispatch({
+      type: ACTIONS.USER_CHECK_SUCCESS,
+      payload: data
+    })
+  }
+
   return (
-    <AuthContext.Provider value={{ user: state, login, logout, register }}>
+    <AuthContext.Provider value={{ user: state, login, logout, register, checkUserSuccess }}>
       {children}
     </AuthContext.Provider>
   )
