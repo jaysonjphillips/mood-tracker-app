@@ -2,6 +2,8 @@ const {User} = require('../models')
 const passport = require('passport')
 const jwt = require('jsonwebtoken')
 
+const expiryLength = 1000 * 60 * 60
+
 const registerUser = async (req, res) => {
     try {
         const newUser = await User.create(req.body)
@@ -20,15 +22,21 @@ const login = async (req, res, next) => {
             if(info !== undefined) return res.status(401).json(info)
             req.login(user, {session: false}, async error => {
                 if(error) return next(error)
-                const body = {id: user.id, email: user.email}
+                const body = {
+                    id: user.id, 
+                    exp: new Date().getTime() + expiryLength
+                }
                 const token = jwt.sign({user: body}, process.env.API_SECRET)
                 const return_user = {
-                    ...body, 
                     first_name: user.first_name,
                     last_name: user.last_name, 
+                    email: user.email, 
                     phone: user.phone
                 }
-                return res.json({token, user: return_user})
+                return res.cookie('jwt', token, {
+                    httpOnly: true, 
+                    sameSite: true
+                }).json({user: return_user})
             })
         } catch (err) {
             return next(err)

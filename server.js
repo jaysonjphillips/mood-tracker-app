@@ -8,12 +8,13 @@ const express = require('express')
 const session = require('express-session')
 const passport = require('./lib/passport')
 const bodyParser = require('body-parser')
+const cookieParser = require('cookie-parser')
 const db = require('./models')
 const cronJob = require('cron').CronJob;
 
 const app = express()
 app.use(express.json())
-
+app.use(cookieParser())
 app.use(session({
     secret: process.env.APP_SESSION_SECRET, 
     resave: false, //required
