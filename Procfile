@@ -1,1 +1,1 @@
-web: npx sequelize-cli db:migrate:all && yarn prod
+web: npx sequelize-cli db:migrate && yarn prod
