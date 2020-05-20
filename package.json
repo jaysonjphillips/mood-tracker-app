@@ -9,7 +9,8 @@
   "scripts": {
     "dev": "nodemon server && cd client && yarn start",
     "build": "cd client && yarn && yarn build",
-    "prod": "yarn build && node server",
+    "heroku-postbuild": "yarn build",
+    "prod": "node server",
     "lint": "prettier + linter",
     "lint:fix": "try to run linter with autofix param",
     "bootstrap": "setup env for running app",
