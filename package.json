@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "nodemon server && cd client && yarn start",
     "build": "cd client && yarn && yarn build",
-    "prod": "yarn build && nodemon server",
+    "prod": "yarn build && node server",
     "lint": "prettier + linter",
     "lint:fix": "try to run linter with autofix param",
     "bootstrap": "setup env for running app",
