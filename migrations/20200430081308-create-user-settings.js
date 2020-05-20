@@ -4,13 +4,21 @@ module.exports = {
     return queryInterface.createTable('UserSettings', {
       id: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4
       },
-      id: {
+      user_id: {
         type: Sequelize.UUID
       },
+      frequency: {
+        type: Sequelize.INTEGER,
+        defaultValue: 3
+      },
+      morning: Sequelize.STRING,
+      afternoon: Sequelize.STRING,
+      evening: Sequelize.STRING,
+      time_zone: Sequelize.STRING,
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

@@ -5,16 +5,17 @@ module.exports = {
     return queryInterface.createTable('mood_entries', {
       id: {
         primaryKey: true, 
-        type: DataTypes.UUID,
-        defaultValue: DataTypes.UUIDV4
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4
       },
       user_id: {
-        type: DataTypes.UUID,
-        defaultValue: DataTypes.UUIDV4
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4
       },
-      mood_rating: DataTypes.INTEGER,
-      mood_comment: DataTypes.TEXT,
-      mood_date: DataTypes.DATE
+      mood_rating: Sequelize.INTEGER,
+      mood_comment: Sequelize.TEXT,
+      mood_date: Sequelize.DATE,
+      mood_prompt: Sequelize.STRING
     })
   },
 
