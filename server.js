@@ -35,14 +35,7 @@ if (NODE_ENV === 'production') {
 db.sequelize.authenticate()
 .then(() => {
     app.listen(PORT, async () => {
-
-        for (model in db) {
-            if(model !== "sequelize" && model !== "Sequelize") {
-                await db[model].sync({force: true})
-            }
-        }
-
-        new cronJob('0 * * * *', workers.moodEntryWorker, null, true)
+        // new cronJob('0 * * * *', workers.moodEntryWorker, null, true)
     })
 })
 .catch( err => console.error(err))
