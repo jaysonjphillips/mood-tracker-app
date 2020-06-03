@@ -23,7 +23,10 @@ module.exports = {
                 })
             }
         } else {
-            
+            MessagingService.sendMessage({
+                body: 'Sorry, you must be a registered use this service',
+                to: From
+            })
         }
     }
 }

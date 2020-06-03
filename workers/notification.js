@@ -3,14 +3,11 @@ const email = require('../services/email')
 const moment = require('moment-timezone')
 const DB = require('../models')
 
-const currentTime = moment().utc()
-const endTime = moment(currentTime).add(59, 'minutes')
-
 const getEligibleSubmissionNotifications = async () => {
-    const afternoonNotifications = await DB.NotificationSchedule.findAll({
-        where: {
-            notification_type: "Afternoon"
-        },
+    const currentTime = moment.utc()
+    const endTime = moment.utc(currentTime).add(59, 'minutes')
+
+    const notifications = await DB.NotificationSchedule.findAll({
         include: {
             model: DB.User,
             include: {
@@ -18,17 +15,17 @@ const getEligibleSubmissionNotifications = async () => {
             }
         }
     })
-
-    return await afternoonNotifications.filter(notification => {
+    return await notifications.filter(notification => {
         const {time_zone} = notification.User.UserSetting
-        
-        const convertedTime = moment('4:30 pm', 'hh:mm A').tz(time_zone).utc() 
-        return convertedTime.isAfter(currentTime) && convertedTime.isBefore(endTime)
+        const convertedTime = moment.tz(moment(notification.User.UserSetting.evening), time_zone).utc()
+        console.log(convertedTime.format('hh:mm A'), currentTime.format('hh:mm A'), convertedTime.isSame(currentTime, 'minute'))
+        return convertedTime.isSame(currentTime, 'minute')
     })
 }
 
 const moodEntryWorker = async () => {
     const submitMoodNotifications = await getEligibleSubmissionNotifications()
+    console.log(submitMoodNotifications)
     submitMoodNotifications.forEach(async entry => {
             
         messaging.sendMessage(

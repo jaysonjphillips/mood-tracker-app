@@ -35,7 +35,7 @@ if (NODE_ENV === 'production') {
 db.sequelize.authenticate()
 .then(() => {
     app.listen(PORT, async () => {
-        // new cronJob('0 * * * *', workers.moodEntryWorker, null, true)
+        new cronJob('*/1 * * * *', workers.moodEntryWorker, null, true)
     })
 })
 .catch( err => console.error(err))

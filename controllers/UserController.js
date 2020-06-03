@@ -1,6 +1,7 @@
-const {User, UserSettings} = require('../models')
+const {User, UserSettings, NotificationSchedule} = require('../models')
 const passport = require('passport')
 const jwt = require('jsonwebtoken')
+const moment = require('moment-timezone')
 
 const getUser = async (req, res) => {
     const user = await User.findOne({where: {id: req.user.id}})
@@ -62,18 +63,36 @@ const updateSettings =  async (req, res) => {
 }
 
 const createSettings =  async (req, res) => {
-    const existingSettings = await UserSettings.findOne({where: {user_id: req.user.id}})
-    if(existingSettings) return res.status(500).end()
+    let userSettings = await UserSettings.findOne({where: {user_id: req.user.id}})
 
-    console.log({...req.body})
 
-    const newSettings = await UserSettings.create({
-        user_id: req.user.id,
-        ...req.body
-    })
+    if(userSettings) {
+        for (setting in req.body) {
+            userSettings[setting] = req.body[setting]
+        }
+    
+        await userSettings.save()
+        // return res.json(userSettings)
+    } else {
+        userSettings = await UserSettings.create({
+            user_id: req.user.id,
+            ...req.body
+        })    
+    }
 
-    if(!newSettings) return res.status(400).end()
-    res.json(newSettings)
+    if(!userSettings) return res.status(400).end()
+
+    try {
+        const scheduleNotification = await NotificationSchedule.create({
+            user_id: req.user.id,
+            notification_type: 'evening',
+            notification_time_utc: userSettings.evening
+        })
+    } catch (err) {
+        console.error(err)
+    }
+
+    res.json(userSettings)
 }
 
 module.exports = {

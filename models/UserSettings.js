@@ -24,6 +24,13 @@ module.exports = (sequelize, DataTypes) => {
     })
   };
 
+  UserSettings.beforeSave( setting => {
+    let {morning, afternoon, evening, time_zone} = setting
+    setting.morning = morning && moment.tz(morning, 'hh:mm A', time_zone).utc().format()
+    setting.afternoon = afternoon && moment.tz(afternoon, 'hh:mm A', time_zone).utc().format()
+    setting.evening = evening && moment.tz(moment(evening, 'hh:mm A'), time_zone).utc().format()
+  })
+
   UserSettings.fakeData = async (id) => {
     const settings = await UserSettings.create({
       user_id: id,
