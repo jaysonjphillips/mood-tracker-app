@@ -1,6 +1,6 @@
 'use strict';
 
-if(process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
 
@@ -8,20 +8,21 @@ const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
 const basename = path.basename(__filename);
-const {DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, DB_PORT, DB_DRIVER} = process.env
+const { DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, DB_PORT, DB_DRIVER } = process.env
 
 const db = {};
 
 let sequelize;
-if (process.env.NODE_ENV === "production") {
+
+if (process.env.NODE_ENV === "production" || process.env.DATABASE_URL) {
   sequelize = new Sequelize(process.env.DATABASE_URL, {
     dialect: DB_DRIVER
   });
 } else {
   sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, {
-      host: DB_HOST,
-      dialect: DB_DRIVER,
-      logging: false
+    host: DB_HOST,
+    dialect: DB_DRIVER,
+    logging: false
   });
 }
 
