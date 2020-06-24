@@ -7,7 +7,7 @@
   "description": "Name TBD: Twilio Hackathon Project Entry using SMS and a web app to track mood trends while in quarantine and allowing for ways, via SMS, to reach out to others for help",
   "main": "server.js",
   "scripts": {
-    "dev": "nodemon server && cd client && yarn start",
+    "dev": "./node_modules/concurrently/bin/concurrently.js \"nodemon server \" \"cd client && yarn start\"",
     "build": "cd client && yarn && yarn build",
     "heroku-postbuild": "yarn build",
     "prod": "node server",
@@ -28,8 +28,10 @@
   "homepage": "https://github.com/jaysonjphillips/mood-tracker-app#readme",
   "dependencies": {
     "@sendgrid/mail": "^7.1.0",
+    "autoprefixer": "^9.8.0",
     "bcrypt": "^4.0.1",
     "body-parser": "^1.19.0",
+    "concurrently": "^5.2.0",
     "cookie-parser": "^1.4.5",
     "cron": "^1.8.2",
     "eslint-plugin-promise": "^4.2.1",
@@ -44,8 +46,10 @@
     "passport-local": "^1.0.0",
     "pg": "^8.2.1",
     "pg-hstore": "^2.3.3",
+    "postcss-import": "^12.0.1",
     "sequelize": "^5.21.6",
     "sequelize-auto-migrations": "https://github.com/Naddyson/sequelize-auto-migrations",
+    "tailwindcss": "^1.4.6",
     "twilio": "^3.42.2",
     "twilio-cli": "^2.0.0"
   },
