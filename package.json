@@ -2,7 +2,7 @@
   "name": "mood-tracker-app",
   "version": "1.0.0",
   "engines": {
-    "node": "12.13.x"
+    "node": ">=12.13.x"
   },
   "description": "Name TBD: Twilio Hackathon Project Entry using SMS and a web app to track mood trends while in quarantine and allowing for ways, via SMS, to reach out to others for help",
   "main": "server.js",
@@ -50,6 +50,7 @@
     "twilio-cli": "^2.0.0"
   },
   "devDependencies": {
+    "cz-conventional-changelog": "3.3.0",
     "dotenv": "^8.2.0",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.1",
@@ -57,5 +58,10 @@
     "eslint-plugin-import": "^2.17.3",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-standard": "^4.0.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
