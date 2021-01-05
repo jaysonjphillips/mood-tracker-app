@@ -45,12 +45,26 @@
       "jest": true
     },
     "parser": "babel-eslint",
-    "extends": ["airbnb", "prettier/react", "plugin:prettier/recommended"],
-    "plugins": ["react", "prettier"],
+    "extends": [
+      "airbnb",
+      "prettier/react",
+      "plugin:prettier/recommended"
+    ],
+    "plugins": [
+      "react",
+      "prettier"
+    ],
     "rules": {
-        "react/jsx-filename-extension": [1, {"extensions":[".js"]}],
-        "prettier/prettier": "error",
-        "react/forbid-prop-types": 0
+      "react/jsx-filename-extension": [
+        1,
+        {
+          "extensions": [
+            ".js"
+          ]
+        }
+      ],
+      "prettier/prettier": "error",
+      "react/forbid-prop-types": 0
     }
   },
   "browserslist": {
