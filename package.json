@@ -37,7 +37,7 @@
     "express-session": "^1.17.1",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.24.0",
-    "moment-timezone": "^0.5.28",
+    "moment-timezone": "^0.5.35",
     "nodemon": "^2.0.4",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
